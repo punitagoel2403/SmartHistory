@@ -1,0 +1,17 @@
+{
+  "manifest_version": 3,
+  "name": "Smart History",
+  "version": "1.0",
+  "description": "View and organize your Chrome history by domain.",
+  "permissions": ["history", "tabs", "downloads", "storage"],
+  "background": {
+	"service_worker": "background.js"
+  },
+  "action": {
+	"default_title": "Smart History"
+  },
+  "host_permissions": ["<all_urls>"],
+  "icons": {
+	"128": "logo.png"
+	}
+}

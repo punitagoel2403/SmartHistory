@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Smart History</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="icon" type="image/png" href="logo.png">
+</head>
+<body>
+  
+  <!-- Landing Page (Home Screen) -->
+  <div id="landingPage" class="landing-page active">
+    <div class="landing-container">
+      <!-- Logo -->
+      <div class="logo-section-landing">
+        <img src="logo.png" alt="Smart History Logo" class="logo-main">
+        <h1 class="brand-title">
+          <span class="letter-s">S</span><span class="letter-m">m</span><span class="letter-a">a</span><span class="letter-r">r</span><span class="letter-t">t</span>
+          <span class="letter-h">H</span><span class="letter-i">i</span><span class="letter-s2">s</span><span class="letter-t2">t</span><span class="letter-o">o</span><span class="letter-r2">r</span><span class="letter-y">y</span>
+        </h1>
+      </div>
+
+      <!-- Search Bar -->
+      <div class="search-bar-container">
+        <input type="text" id="landingSearchInput" class="search-bar" placeholder="Search from History">
+        <button class="search-icon-btn">🔍</button>
+      </div>
+
+      <!-- Action Buttons -->
+      <div class="action-buttons">
+        <button class="action-btn" id="fetchHistoryBtn">Fetch History</button>
+        <button class="action-btn" id="feelingLuckyBtn">I'm Feeling Lucky</button>
+      </div>
+
+      <!-- Quick Access Links -->
+      <div class="quick-links">
+        <button class="quick-link-btn" id="goToCurrentSession">
+          <span class="quick-icon">💼</span>
+          <span>Current Session</span>
+        </button>
+        <button class="quick-link-btn" id="goToSavedSessions">
+          <span class="quick-icon">📁</span>
+          <span>Saved Sessions</span>
+        </button>
+      </div>
+
+      <!-- Theme Toggle in Corner -->
+      <label class="theme-toggle-corner">
+        <input type="checkbox" id="themeSwitch">
+        <span class="slider"></span>
+        <span class="icon sun">☀️</span>
+        <span class="icon moon">🌙</span>
+      </label>
+    </div>
+  </div>
+
+  <!-- Main Application (Hidden Initially) -->
+  <div id="mainApp" class="main-app">
+    <!-- Modern Header -->
+    <div class="app-header">
+      <div class="header-content">
+        <div class="logo-section" id="backToHome">
+          <img src="logo.png" alt="Logo" class="logo-small">
+          <div class="brand">
+            <h1>Smart History</h1>
+            <p class="tagline">Organize your browsing journey</p>
+          </div>
+        </div>
+        <div class="header-actions-right">
+          <button class="back-home-btn" id="backHomeBtn" title="Back to Home">
+            <span>🏠</span> Home
+          </button>
+          <label class="theme-toggle">
+            <input type="checkbox" id="themeSwitchMain">
+            <span class="slider"></span>
+            <span class="icon sun">☀️</span>
+            <span class="icon moon">🌙</span>
+          </label>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modern Tab Navigation -->
+    <div class="tab-bar">
+      <button class="tab-button active" data-tab="history">
+        <span class="tab-icon">🔍</span>
+        <span class="tab-label">History Search</span>
+      </button>
+      <button class="tab-button" data-tab="session">
+        <span class="tab-icon">🧠</span>
+        <span class="tab-label">Current Session</span>
+      </button>
+      <button class="tab-button" data-tab="saved">
+        <span class="tab-icon">💾</span>
+        <span class="tab-label">Saved Sessions</span>
+      </button>
+    </div>
+
+    <!-- Tab 1: Search from History -->
+    <div id="historyTab" class="tab-content active">
+      <div class="content-wrapper">
+        <!-- Date Range Picker Card -->
+        <div class="card date-picker-card">
+          <h3 class="card-title">Select Date Range</h3>
+          <div class="date-inputs">
+            <div class="input-group">
+              <label for="startDate">From</label>
+              <input type="date" id="startDate">
+            </div>
+            <div class="input-group">
+              <label for="endDate">To</label>
+              <input type="date" id="endDate">
+            </div>
+            <button id="fetch" class="btn btn-primary">
+              <span>🔎</span> Fetch History
+            </button>
+          </div>
+        </div>
+
+        <!-- Status Banner -->
+        <div id="status" class="status-banner"></div>
+
+        <!-- Two Column Layout -->
+        <div class="two-column-layout">
+          <!-- Left: Grouped History -->
+          <div class="column-card">
+            <div class="column-header">
+              <h2>📊 Grouped by Domain</h2>
+              <span class="badge" id="domainCount">0 domains</span>
+            </div>
+            <div class="column-content" id="left">
+              <div class="empty-state">
+                <div class="empty-icon">🗂️</div>
+                <p>Select a date range and fetch your history</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Right: Selected Links -->
+          <div class="column-card">
+            <div class="column-header">
+              <h2>🎯 Selected Links</h2>
+              <span class="badge" id="selectedCount">0 selected</span>
+            </div>
+            <div class="column-content">
+              <ul id="selectedLinks" class="selected-list"></ul>
+              <div class="empty-state" id="emptySelected">
+                <div class="empty-icon">📌</div>
+                <p>Click ➕ to add links here</p>
+              </div>
+            </div>
+            <div class="column-footer">
+              <button class="btn btn-success btn-large" id="myButton">
+                <span>🚀</span> Open All in New Window
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tab 2: Current Session -->
+    <div id="sessionTab" class="tab-content">
+      <div class="content-wrapper">
+        <div class="card">
+          <div class="card-header">
+            <h3>💼 Current Browser Session</h3>
+            <button id="saveSessionBtn" class="btn btn-primary">
+              <span>💾</span> Save Session
+            </button>
+          </div>
+          <div class="session-window-list" id="sessionWindowList">
+            <div class="loading-state">
+              <div class="spinner"></div>
+              <p>Loading open tabs...</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tab 3: Saved Sessions -->
+    <div id="savedTab" class="tab-content">
+      <div class="content-wrapper">
+        <div class="card">
+          <div class="card-header">
+            <h3>🗄️ Saved Sessions</h3>
+            <div class="header-actions">
+              <input type="text" id="searchSessionsInput" placeholder="🔍 Search sessions..." class="search-input"/>
+              <button id="exportAllBtn" class="btn btn-secondary">
+                <span>📤</span> Export
+              </button>
+              <button id="importAllBtn" class="btn btn-secondary">
+                <span>📥</span> Import
+              </button>
+            </div>
+          </div>
+          <div id="sessionList" class="session-list">
+            <div class="loading-state">
+              <div class="spinner"></div>
+              <p>Loading sessions...</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  
+<!-- Lucky Modal -->
+<div id="luckyModal" class="lucky-modal">
+  <div class="lucky-modal-content">
+    <button class="lucky-close" id="luckyClose">✕</button>
+    
+    <!-- Fortune Display -->
+    <div class="fortune-cookie-wrapper">
+      <div class="cookie-icon">🥠</div>
+      <div id="luckyContent" class="fortune-text"></div>
+    </div>
+    
+    <!-- Share Card Preview -->
+    <div id="sharePreview" class="share-preview">
+      <div class="share-card">
+        <div class="share-card-header">
+          <img src="logo.png" class="share-logo" alt="Smart History">
+          <span class="share-brand">Smart History</span>
+        </div>
+        <div class="share-card-fortune" id="shareFortuneText"></div>
+        <div class="share-card-footer">Get your fortune → smarthistory.vercel.app </div>
+      </div>
+    </div>
+    
+    <div class="lucky-actions">
+      <button id="luckyAnother" class="btn btn-secondary">
+        <span>🔄</span> Another
+      </button>
+      <!--<button id="luckyShare" class="btn btn-primary">
+        <span>🐦</span> Share Fortune
+      </button>-->
+	  <button id="luckyShare" class="btn btn-primary" aria-label="Share on X">
+  <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18"
+       viewBox="0 0 1200 1227" fill="currentColor" style="margin-right:6px">
+    <path d="M714.163 519.284L1160.89 0H1056.62L667.137 450.887L356.567 0H0L468.491 681.821L0 1226.37H104.274L514.932 750.218L843.433 1226.37H1200L714.137 519.284H714.163ZM568.169 687.828L520.402 619.693L142.08 79.6896H306.937L611.412 518.49L659.179 586.625L1056.68 1151.31H891.826L568.169 687.828Z"/>
+  </svg>
+  <span>Share Fortune</span>
+</button>
+    </div>
+  </div>
+</div>
+  <script src="popup.js"></script>
+</body>
+</html>
